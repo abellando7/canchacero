@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Descubrí tu ojo director y tu relación óculo-manual en el tenis. Cancha Cero.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Tu Ojo Director</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Public+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: una columna angosta tipo cancha vista desde arriba; líneas de cal dividen secciones; el test es un stepper. */
+:root {
+  --bg: #EDF1F3;
+  --surface: #FFFFFF;
+  --fg: #0E1B2A;
+  --muted: #4F6170;
+  --line: #C9D4DB;
+  --court: #1E4F7A;
+  --court-ink: #FFFFFF;
+  --ball: #D6F03A;
+  --ball-ink: #1A2200;
+  --warn: #B4472B;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1520; --surface: #112131; --fg: #E6EDF2; --muted: #93A6B5; --line: #24384A;
+    --court: #2C6A9F; --court-ink: #FFFFFF; --ball: #D6F03A; --ball-ink: #1A2200; --warn: #F08A6C;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A1520; --surface: #112131; --fg: #E6EDF2; --muted: #93A6B5; --line: #24384A;
+  --court: #2C6A9F; --court-ink: #FFFFFF; --ball: #D6F03A; --ball-ink: #1A2200; --warn: #F08A6C;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 640px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 800; line-height: 1; text-wrap: balance; margin: 0; letter-spacing: 0.005em; }
+h2 { font-size: clamp(2.1rem, 8vw, 2.8rem); text-transform: uppercase; }
+h3 { font-size: 1.5rem; text-transform: uppercase; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--ball); outline-offset: 3px; }
+
+/* HERO: la cancha */
+.hero { background: var(--court); color: var(--court-ink); position: relative; overflow: hidden; }
+.hero .wrap { padding-block: 40px 44px; position: relative; z-index: 1; }
+.hero::before, .hero::after { content: ""; position: absolute; pointer-events: none; border: 2px solid rgba(255,255,255,.22); }
+.hero::before { inset: 18px 18px -2px; border-bottom: 0; }
+.hero::after { left: 50%; top: 18px; bottom: -2px; width: 0; border-width: 0 0 0 2px; }
+.brand { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: .9; }
+.brand b { font-weight: 700; }
+.hero h1 { font-size: clamp(3rem, 15vw, 5.4rem); text-transform: uppercase; margin-top: 36px; }
+.hero h1 em { font-style: normal; background: var(--ball); color: var(--ball-ink); padding: 0 .12em; }
+.hero .lede { margin-top: 20px; font-size: 1.12rem; max-width: 34ch; }
+.hero .by { margin-top: 24px; font-size: .9rem; opacity: .85; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--display); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; letter-spacing: .02em;
+  min-height: 54px; padding: 0 24px; border: 0; border-radius: 999px; cursor: pointer; text-decoration: none;
+  background: var(--ball); color: var(--ball-ink); transition: transform .15s ease;
+}
+.btn:active { transform: scale(.97); }
+.btn.ghost { background: transparent; color: var(--fg); border: 2px solid var(--line); }
+.hero .btn { margin-top: 28px; }
+
+section.block { padding-block: 52px; border-bottom: 2px solid var(--line); }
+section.block:last-of-type { border-bottom: 0; }
+
+/* Mito vs realidad */
+.versus { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.versus > div { padding: 18px; border-radius: 14px; }
+.versus .myth { border: 2px dashed var(--line); color: var(--muted); }
+.versus .myth p { text-decoration: line-through; text-decoration-color: var(--warn); text-decoration-thickness: 2px; }
+.versus .real { background: var(--surface); border: 2px solid var(--fg); }
+.versus .real p { font-weight: 700; font-size: 1.15rem; }
+.quote { font-size: 1.2rem; line-height: 1.5; padding-left: 16px; border-left: 4px solid var(--ball); }
+
+/* Lateralidad */
+.lat { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+.lat li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; font-weight: 500; font-size: .95rem; line-height: 1.3; }
+.lat li span { display: block; font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.lat li.key { grid-column: 1 / -1; background: var(--court); color: var(--court-ink); border-color: var(--court); }
+.lat li.key span { color: inherit; opacity: .8; }
+
+/* Perfiles */
+.profiles { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.prof { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: start; }
+.prof .tag { grid-row: span 2; font-family: var(--display); font-weight: 900; font-size: 1.1rem; text-transform: uppercase; background: var(--fg); color: var(--bg); border-radius: 8px; padding: 6px 10px; line-height: 1.1; text-align: center; }
+.prof b { font-size: 1.05rem; }
+.prof p { color: var(--muted); font-size: .95rem; min-width: 0; }
+
+/* TEST */
+.test { background: var(--surface); border: 2px solid var(--fg); border-radius: 18px; padding: 20px; }
+.progress { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 18px; }
+.progress i { height: 6px; border-radius: 3px; background: var(--line); }
+.progress i.on { background: var(--court); }
+.step { display: flex; flex-direction: column; gap: 16px; }
+.how { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 8px; }
+.how li::marker { font-family: var(--mono); font-weight: 700; color: var(--court); }
+.tip { font-size: .9rem; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 12px 14px; }
+.q { font-weight: 700; font-size: 1.08rem; }
+.opts { display: grid; gap: 10px; }
+.opt { position: relative; }
+.opt input { position: absolute; opacity: 0; inset: 0; }
+.opt label {
+  display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px;
+  border: 2px solid var(--line); border-radius: 12px; cursor: pointer; font-weight: 500; background: var(--surface);
+}
+.opt label::before { content: ""; flex: none; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--muted); }
+.opt input:checked + label { border-color: var(--court); box-shadow: inset 0 0 0 1px var(--court); }
+.opt input:checked + label::before { background: var(--ball); border-color: var(--ball-ink); box-shadow: inset 0 0 0 3px var(--surface); }
+.opt input:focus-visible + label { outline: 3px solid var(--ball); outline-offset: 2px; }
+.nav { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
+.nav .btn { flex: 1 1 140px; }
+.btn[disabled] { opacity: .4; cursor: not-allowed; }
+
+/* Triángulo ilustrado */
+.illus { background: var(--bg); border-radius: 12px; padding: 12px; }
+.illus svg { width: 100%; height: auto; display: block; }
+
+/* Resultado */
+.result-head { display: flex; flex-direction: column; gap: 6px; }
+.result-head h3 { font-size: clamp(2rem, 9vw, 2.6rem); }
+.verdict { display: flex; align-items: center; gap: 12px; background: var(--ball); color: var(--ball-ink); border-radius: 12px; padding: 14px 16px; }
+.verdict span { font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+.verdict strong { font-family: var(--display); font-size: 1.9rem; text-transform: uppercase; line-height: 1; margin-left: auto; }
+.court-svg { background: var(--court); border-radius: 12px; padding: 8px; }
+.court-svg svg { width: 100%; height: auto; display: block; }
+.points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.points li { padding-left: 26px; position: relative; }
+.points li::before { content: ""; position: absolute; left: 4px; top: .55em; width: 10px; height: 10px; border-radius: 50%; background: var(--ball); border: 2px solid var(--ball-ink); }
+.points li.help::before { background: var(--court); border-color: var(--court); }
+.points strong { font-weight: 700; }
+.mini { font-size: .85rem; color: var(--muted); }
+
+/* Glosario */
+.gloss { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.gloss div { display: grid; grid-template-columns: 8.5rem 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: .95rem; }
+.gloss dt { font-family: var(--mono); font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding-top: 2px; }
+.gloss dd { margin: 0; color: var(--muted); min-width: 0; }
+
+/* CTA */
+.cta { background: var(--fg); color: var(--bg); }
+.cta .wrap { padding-block: 56px; }
+.cta h2 { color: var(--bg); }
+.cta .who { display: flex; align-items: center; gap: 14px; }
+.cta .avatar { flex: none; width: 56px; height: 56px; border-radius: 50%; background: var(--ball); color: var(--ball-ink); display: grid; place-items: center; font-family: var(--display); font-weight: 900; font-size: 1.5rem; }
+.cta ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+.cta .btn { width: 100%; }
+.cta .btn.ghost { color: var(--bg); border-color: color-mix(in srgb, var(--bg) 35%, transparent); }
+.cta .note { font-size: .85rem; opacity: .75; }
+footer .wrap { padding-block: 28px; font-size: .8rem; color: var(--muted); }
+
+@media (min-width: 560px) {
+  .versus { grid-template-columns: 1fr 1fr; }
+  .lat { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .test { padding: 28px; }
+}
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } html { scroll-behavior: auto; } }
+html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><b>Cancha Cero</b><span>Testeo de la realidad</span></div>
+    <h1>La confianza se entrena con <em>información</em></h1>
+    <p class="lede">Descubrí cuál es tu ojo director en 3 minutos y entendé por qué algunos golpes se te meten, por más que te digan que le pegues adelante.</p>
+    <p class="by">Contenido basado en el trabajo del Lic. Santiago Romañach, psicólogo deportivo.</p>
+    <a class="btn" href="#test">Hacer el test</a>
+  </div>
+</header>
+
+<main>
+  <section class="block">
+    <div class="wrap stack">
+      <p class="eyebrow">Qué es la confianza</p>
+      <h2>No es gritar los puntos</h2>
+      <div class="versus">
+        <div class="myth"><p class="eyebrow" style="text-decoration:none">Lo que se suele decir</p><p>"Tenés que creértela, festejar, mostrarte valiente."</p></div>
+        <div class="real"><p class="eyebrow">Lo que realmente pasa</p><p>La confianza se logra con información sobre vos mismo.</p></div>
+      </div>
+      <p>Muchos jugadores arrastran durante años un golpe que nunca termina de mejorar. Buscan explicaciones, quienes les enseñan insisten con la misma corrección, y sigue pasando lo mismo.</p>
+      <p class="quote">Cuando reciben la información, sienten alivio. Y muchas veces lamentan haber sido tan duros consigo mismos.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap stack">
+      <p class="eyebrow">El testeo de la realidad</p>
+      <h2>Tu lateralidad, pieza por pieza</h2>
+      <p>La información más importante del autoconocimiento en el tenis es tu lateralidad. Se estudian estos puntos:</p>
+      <ul class="lat">
+        <li class="key"><span>Lo más importante</span>Relación óculo-manual: ojo director + mano hábil</li>
+        <li><span>Ojo</span>Ojo director</li>
+        <li><span>Mano</span>Mano hábil</li>
+        <li><span>Hombro</span>Sentido de rotación preferente</li>
+        <li><span>Cadera</span>Lado de rotación</li>
+        <li><span>Pierna y pie</span>Pierna y pie hábil</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap stack">
+      <p class="eyebrow">El concepto clave</p>
+      <h2>Vemos con dos ojos, hacemos foco con uno</h2>
+      <p>Todas las personas vemos con los dos ojos, pero hacemos foco con el <strong>ojo director</strong>. Cuando te perfilás para un golpe y ese ojo queda atrás, el impacto también se va atrás: más cerca del cuerpo y más al costado.</p>
+      <p>Por eso, aunque te pidan pararte cerrado y tengas toda la intención de tocarla adelante, del lado en que el ojo queda atrás <strong>la pelota se te mete</strong>. El impacto depende del ojo y de la empuñadura, no solo de la voluntad.</p>
+      <div class="profiles">
+        <div class="prof"><div class="tag">Homo&shy;géneo</div><b>Mano y ojo del mismo lado</b><p>Se le mete de derecha. Ejemplo típico: diestro de mano y diestro de ojo.</p></div>
+        <div class="prof"><div class="tag">Cruzado</div><b>Ojo de un lado, mano del otro</b><p>Se le mete de revés. Le pasa igual a diestros y zurdos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="test">
+    <div class="wrap stack">
+      <p class="eyebrow">Práctica · 3 minutos</p>
+      <h2>Descubrí tu relación óculo-manual</h2>
+      <p>Hacelo parado, con algo lejano a la vista: un poste de la red, una esquina, una lámpara. Respondé con lo que ves, no con lo que creés.</p>
+
+      <div class="test" aria-live="polite">
+        <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+        <!-- Paso 1 -->
+        <div class="step" data-step="0">
+          <p class="eyebrow">Paso 1 de 4 · Mano hábil</p>
+          <h3>¿Con qué mano jugás la derecha?</h3>
+          <div class="opts">
+            <div class="opt"><input type="radio" name="hand" id="hand-r" value="R"><label for="hand-r">Con la mano derecha (soy diestro)</label></div>
+            <div class="opt"><input type="radio" name="hand" id="hand-l" value="L"><label for="hand-l">Con la mano izquierda (soy zurdo)</label></div>
+          </div>
+          <div class="nav"><button class="btn" data-next disabled>Siguiente</button></div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="step" data-step="1" hidden>
+          <p class="eyebrow">Paso 2 de 4 · Test del triángulo</p>
+          <h3>Encuadrá un objeto lejano</h3>
+          <div class="illus" aria-hidden="true">
+            <svg viewBox="0 0 320 120">
+              <rect x="0" y="0" width="320" height="120" fill="none"/>
+              <circle cx="262" cy="38" r="10" fill="var(--ball)" stroke="var(--ball-ink)" stroke-width="2"/>
+              <text x="262" y="70" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">OBJETO</text>
+              <path d="M150 20 L178 62 L122 62 Z" fill="none" stroke="var(--court)" stroke-width="5" stroke-linejoin="round"/>
+              <text x="150" y="88" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">MANOS</text>
+              <line x1="62" y1="54" x2="250" y2="40" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 4"/>
+              <circle cx="50" cy="55" r="22" fill="none" stroke="var(--fg)" stroke-width="2"/>
+              <circle cx="58" cy="50" r="3" fill="var(--fg)"/>
+              <text x="50" y="96" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">VOS</text>
+            </svg>
+          </div>
+          <ol class="how">
+            <li>Estirá los brazos y juntá las manos formando un triángulo chico entre pulgares e índices.</li>
+            <li>Con los dos ojos abiertos, encuadrá el objeto lejano dentro del triángulo.</li>
+            <li>Sin mover las manos, cerrá el ojo izquierdo. Después abrilo y cerrá el derecho.</li>
+          </ol>
+          <p class="q">¿Con qué ojo abierto el objeto se queda dentro del triángulo?</p>
+          <div class="opts">
+            <div class="opt"><input type="radio" name="eyeA" id="eyeA-r" value="R"><label for="eyeA-r">Con el ojo derecho abierto</label></div>
+            <div class="opt"><input type="radio" name="eyeA" id="eyeA-l" value="L"><label for="eyeA-l">Con el ojo izquierdo abierto</label></div>
+            <div class="opt"><input type="radio" name="eyeA" id="eyeA-u" value="U"><label for="eyeA-u">No me quedó claro</label></div>
+          </div>
+          <p class="tip">Con el otro ojo abierto, el objeto "salta" fuera del triángulo. Si dudás, repetilo dos o tres veces.</p>
+          <div class="nav"><button class="btn ghost" data-prev>Atrás</button><button class="btn" data-next disabled>Siguiente</button></div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="step" data-step="2" hidden>
+          <p class="eyebrow">Paso 3 de 4 · Confirmación</p>
+          <h3>Acercá el triángulo a tu cara</h3>
+          <ol class="how">
+            <li>Volvé a encuadrar el objeto con los dos ojos abiertos.</li>
+            <li>Sin perder el objeto de vista, acercá despacio las manos hasta tocarte la cara.</li>
+            <li>Fijate frente a qué ojo terminó el triángulo.</li>
+          </ol>
+          <p class="q">¿Frente a qué ojo terminaron tus manos?</p>
+          <div class="opts">
+            <div class="opt"><input type="radio" name="eyeB" id="eyeB-r" value="R"><label for="eyeB-r">Frente al ojo derecho</label></div>
+            <div class="opt"><input type="radio" name="eyeB" id="eyeB-l" value="L"><label for="eyeB-l">Frente al ojo izquierdo</label></div>
+            <div class="opt"><input type="radio" name="eyeB" id="eyeB-u" value="U"><label for="eyeB-u">Quedaron en el medio</label></div>
+          </div>
+          <p class="tip">Las manos van solas hacia el ojo que hace foco. No las guíes.</p>
+          <div class="nav"><button class="btn ghost" data-prev>Atrás</button><button class="btn" data-next disabled>Ver resultado</button></div>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="step" data-step="3" hidden>
+          <p class="eyebrow">Paso 4 de 4 · Tu resultado</p>
+          <div id="result" class="stack"></div>
+          <div class="nav"><button class="btn ghost" data-restart>Repetir el test</button><a class="btn" href="#agendar">Hablar con Luciano</a></div>
+        </div>
+      </div>
+      <p class="mini">Este test es una primera aproximación. El diagnóstico completo de lateralidad (ojo, mano, hombro, cadera, pierna y pie) se hace con un profesional.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap stack">
+      <p class="eyebrow">Por qué importa</p>
+      <h2>Jugar desde tu naturalidad</h2>
+      <p>Cuando sabés cómo estás hecho, el entrenamiento se acomoda a vos: la planificación, la motivación y la técnica se construyen en base a tu lateralidad, y no copiando el modelo de un jugador exitoso que tiene otro cuerpo y otro ojo.</p>
+      <p>Pegarle donde tu ojo la ve te da más tiempo en cada golpe. Más tiempo es menos apuro, y menos apuro es más confianza.</p>
+      <dl class="gloss">
+        <div><dt>Lado par</dt><dd>El lado derecho de tu cancha, donde se sacan los puntos 0-0, 30-15, 15-30.</dd></div>
+        <div><dt>Lado impar</dt><dd>El lado izquierdo de tu cancha, el de la ventaja: 15-0, 30-40.</dd></div>
+        <div><dt>Derecha invertida</dt><dd>La derecha que jugás corriendo hacia el lado del revés, rodeando la pelota.</dd></div>
+        <div><dt>Apoyo abierto</dt><dd>Pies paralelos a la red, cuerpo de frente.</dd></div>
+        <div><dt>Apoyo cerrado</dt><dd>Pie delantero cruzado, cuerpo de costado.</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<section class="cta" id="agendar">
+  <div class="wrap stack">
+    <p class="eyebrow" style="color:inherit;opacity:.7">Siguiente paso</p>
+    <h2>Llevá esta información a la cancha</h2>
+    <div class="who">
+      <div class="avatar" aria-hidden="true">LC</div>
+      <div><b>Luciano Coceres</b><br><span style="opacity:.75">Diagnóstico y asesoramiento de posicionamiento</span></div>
+    </div>
+    <p>En una llamada con Luciano vas a:</p>
+    <ul>
+      <li>Confirmar tu ojo director y el resto de tu lateralidad.</li>
+      <li>Entender en qué golpes la pelota se te mete y por qué.</li>
+      <li>Ajustar empuñadura y apoyos para pegarle adelante.</li>
+      <li>Salir con un plan para ganar confianza desde tu manera natural de jugar.</li>
+    </ul>
+    <a class="btn" id="cta-link" href="https://calendly.com/canchacero/entrevista-de-admision-programa-online-cancha-ce-clon" target="_blank" rel="noopener">Agendar llamada con Luciano</a>
+    <button class="btn ghost" id="copy-result" type="button" hidden>Copiar mi resultado para enviarlo</button>
+    <p class="note" id="copy-note" aria-live="polite">Si hiciste el test, copiá tu resultado y mandáselo a Luciano antes de la llamada.</p>
+  </div>
+</section>
+
+<footer><div class="wrap">Cancha Cero · Lic. Santiago Romañach. Material educativo, no reemplaza una evaluación profesional.</div></footer>
+
+<script>
+// Link de agenda de Luciano (WhatsApp, Calendly, etc.)
+const AGENDA_URL = "https://calendly.com/canchacero/entrevista-de-admision-programa-online-cancha-ce-clon";
+
+(function () {
+  const steps = [...document.querySelectorAll(".step")];
+  const bars = [...document.querySelectorAll(".progress i")];
+  const state = { hand: null, eyeA: null, eyeB: null };
+  let current = 0;
+
+  if (AGENDA_URL) document.getElementById("cta-link").href = AGENDA_URL;
+  else document.getElementById("cta-link").removeAttribute("target");
+
+  function show(i) {
+    current = i;
+    steps.forEach((s, n) => (s.hidden = n !== i));
+    bars.forEach((b, n) => b.classList.toggle("on", n <= i));
+    if (i === 3) renderResult();
+  }
+  function scrollToTest() { document.getElementById("test").scrollIntoView({ block: "start" }); }
+
+  document.querySelectorAll('.test input[type="radio"]').forEach((inp) => {
+    inp.addEventListener("change", () => {
+      state[inp.name] = inp.value;
+      inp.closest(".step").querySelector("[data-next]").disabled = false;
+    });
+  });
+  document.querySelectorAll("[data-next]").forEach((b) => b.addEventListener("click", () => { show(current + 1); scrollToTest(); }));
+  document.querySelectorAll("[data-prev]").forEach((b) => b.addEventListener("click", () => show(current - 1)));
+  document.querySelector("[data-restart]").addEventListener("click", () => {
+    Object.keys(state).forEach((k) => (state[k] = null));
+    document.querySelectorAll('.test input[type="radio"]').forEach((i) => (i.checked = false));
+    document.querySelectorAll("[data-next]").forEach((b) => (b.disabled = true));
+    document.getElementById("copy-result").hidden = true;
+    try { localStorage.removeItem("ojo-director"); } catch (e) {}
+    show(0); scrollToTest();
+  });
+
+  function resolveEye(a, b) {
+    if (a !== "U" && b !== "U") return a === b ? a : null;
+    if (a !== "U") return a;
+    if (b !== "U") return b;
+    return null;
+  }
+
+  // El ojo atrás define qué golpe se mete: homogéneo -> derecha, cruzado -> revés.
+  function profileFor(hand, eye) {
+    const diestro = hand === "R";
+    const manoTxt = diestro ? "Mano derecha" : "Mano izquierda";
+    const ojoTxt = eye === "R" ? "ojo derecho" : "ojo izquierdo";
+    if (hand === eye) {
+      const ladoDificil = diestro ? "par" : "impar";
+      const ladoSaque = diestro ? "impar" : "par";
+      const haciaRival = diestro ? "derecha" : "izquierda";
+      return {
+        name: "Homogéneo " + (diestro ? "diestro" : "zurdo"),
+        sub: manoTxt + " · " + ojoTxt,
+        problem: "Derecha",
+        points: [
+          ["", "<strong>Tu derecha tiende a quedar atrás</strong> y cerca del cuerpo: al perfilarte para ese golpe, tu ojo director queda atrás."],
+          ["", "La derecha que más cuesta es la del <strong>lado " + ladoDificil + "</strong>, abierta. Más todavía con empuñadura Eastern y apoyo cerrado."],
+          ["help", "<strong>Te ayuda:</strong> una empuñadura más semi-western y el apoyo abierto, para jugar más de frente y tocarla adelante."],
+          ["help", "<strong>Tu fuerte suele ser la derecha invertida</strong>, en especial la invertida cruzada: jugás con la cancha rival hacia tu " + haciaRival + "."],
+          ["help", "<strong>De revés la tenés adelante.</strong>"],
+          ["", "<strong>Saque:</strong> solés sacar mejor del lado " + ladoSaque + ". Del lado " + ladoDificil + ", probá pararte un poco más de frente."]
+        ],
+        mirror: !diestro
+      };
+    }
+    const pierna = diestro ? "izquierda" : "derecha";
+    return {
+      name: "Cruzado " + (diestro ? "diestro" : "zurdo"),
+      sub: manoTxt + " · " + ojoTxt,
+      problem: "Revés",
+      points: [
+        ["help", "<strong>De derecha la tenés siempre adelante</strong>, con cualquier apoyo, abierto o cerrado."],
+        ["", "<strong>Tu revés tiende a quedar atrás:</strong> al perfilarte para ese golpe, tu ojo director queda atrás."],
+        ["help", "<strong>Te ayuda:</strong> el slice, o el revés a dos manos con un impacto más cercano al cuerpo, y el apoyo semi-abierto."],
+        ["help", "Si manejás bien tu <strong>pierna " + pierna + "</strong>, podés jugar el revés un poco más de frente y pegarle más adelante."]
+      ],
+      mirror: false
+    };
+  }
+
+  // Vista desde arriba: red arriba, jugador abajo, impacto adelante vs atrás.
+  function courtSVG(hand, problem) {
+    const fh = hand === "R" ? 1 : -1;
+    const cx = 160, cy = 190;
+    const fhBad = problem === "Derecha";
+    const dot = (side, bad) => {
+      const x = cx + side * (bad ? 52 : 86);
+      const y = bad ? 196 : 112;
+      return `<circle cx="${x}" cy="${y}" r="11" fill="${bad ? "#F08A6C" : "#D6F03A"}" stroke="#0E1B2A" stroke-width="2"/>`;
+    };
+    const label = (side, txt, bad) => {
+      const x = cx + side * 112;
+      return `<text x="${x}" y="${bad ? 226 : 96}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#FFFFFF">${txt}</text>`;
+    };
+    return `<svg viewBox="0 0 320 250" role="img" aria-label="Vista desde arriba: punto de impacto de derecha y revés">
+      <line x1="16" y1="26" x2="304" y2="26" stroke="#FFFFFF" stroke-width="3"/>
+      <text x="160" y="18" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#FFFFFF" opacity=".8">RED</text>
+      <line x1="16" y1="112" x2="304" y2="112" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" opacity=".55"/>
+      <text x="22" y="106" font-family="JetBrains Mono, monospace" font-size="9" fill="#FFFFFF" opacity=".75">IMPACTO ADELANTE</text>
+      <ellipse cx="${cx}" cy="${cy}" rx="34" ry="12" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".7"/>
+      <circle cx="${cx}" cy="${cy}" r="15" fill="#FFFFFF"/>
+      ${dot(fh, fhBad)}${dot(-fh, !fhBad)}
+      ${label(fh, "DERECHA", fhBad)}${label(-fh, "REVÉS", !fhBad)}
+    </svg>`;
+  }
+
+  function renderResult() {
+    const box = document.getElementById("result");
+    const eye = resolveEye(state.eyeA, state.eyeB);
+    const copyBtn = document.getElementById("copy-result");
+    if (!eye) {
+      box.innerHTML = `<div class="result-head"><p class="eyebrow">Resultado</p><h3>Tu ojo director no quedó claro</h3></div>
+        <p>Las dos pruebas dieron distinto o no hubo un lado definido. Pasa seguido: repetilo con un objeto más lejano y sin apurarte.</p>
+        <p class="tip">Si sigue sin quedar claro, es justamente un caso para revisar en la llamada con Luciano: hay otras pruebas para definirlo.</p>`;
+      copyBtn.hidden = true;
+      return;
+    }
+    const p = profileFor(state.hand, eye);
+    box.innerHTML = `<div class="result-head"><p class="eyebrow">${p.sub}</p><h3>${p.name}</h3></div>
+      <div class="verdict"><span>La pelota se te mete de</span><strong>${p.problem}</strong></div>
+      <div class="court-svg">${courtSVG(state.hand, p.problem)}</div>
+      <p class="mini">Amarillo: impacto adelante. Naranja: el golpe donde el impacto tiende a irse atrás y cerca.</p>
+      <ul class="points">${p.points.map(([c, t]) => `<li class="${c}">${t}</li>`).join("")}</ul>
+      ${p.mirror ? '<p class="mini">Las referencias para zurdos son en espejo de las del diestro.</p>' : ""}
+      <p>Si ese golpe te viene costando hace tiempo, ahora sabés que no es falta de ganas ni de carácter.</p>`;
+    const summary = `Hice el test de ojo director de Cancha Cero. Resultado: ${p.name} (${p.sub}). La pelota se me mete de ${p.problem.toLowerCase()}.`;
+    copyBtn.hidden = false;
+    copyBtn.onclick = () => {
+      const note = document.getElementById("copy-note");
+      navigator.clipboard.writeText(summary)
+        .then(() => (note.textContent = "Copiado. Pegalo en tu mensaje a Luciano."))
+        .catch(() => (note.textContent = summary));
+    };
+    try { localStorage.setItem("ojo-director", JSON.stringify(state)); } catch (e) {}
+  }
+
+  // Si ya hizo el test en este dispositivo, mostrar el resultado guardado.
+  try {
+    const saved = JSON.parse(localStorage.getItem("ojo-director") || "null");
+    if (saved && saved.hand && saved.eyeA && saved.eyeB) {
+      Object.assign(state, saved);
+      ["hand", "eyeA", "eyeB"].forEach((k) => {
+        const el = document.querySelector(`input[name="${k}"][value="${saved[k]}"]`);
+        if (el) { el.checked = true; el.closest(".step").querySelector("[data-next]").disabled = false; }
+      });
+      show(3);
+      return;
+    }
+  } catch (e) {}
+  show(0);
+})();
+</script>
+</body>
+</html>
